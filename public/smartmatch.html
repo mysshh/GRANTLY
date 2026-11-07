@@ -1,0 +1,26 @@
+<!doctype html><html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#17152f">
+<meta name="description" content="GRANTLY helps students discover scholarships, understand eligibility and move confidently towards their next chapter.">
+<title>GRANTLY — Your next chapter starts here</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+</head><body><div class="site-shell"><header class="topbar"><a class="wordmark" href="/"><span class="logo-star">✳</span> grantly</a><nav class="nav-links"><a href="/">Home</a><a href="/scholarships.html">Scholarships</a><a href="/smartmatch.html">SmartMatch</a><a href="/applications.html">My applications</a><a href="/tools.html">Student tools</a></nav><a class="nav-cta" href="/scholarships.html">Explore funding <span>↗</span></a><button class="menu-toggle" aria-label="Toggle navigation">☰</button></header><main class="page-main"><div class="page-title"><span class="chapter">01 / YOUR PERSONAL SCHOLARSHIP COMPASS</span><h1>Find support that<br><em>fits your journey.</em></h1></div><section class="match-section" id="smart-match">
+<div class="match-intro"><span class="chapter">YOUR PERSONAL SCHOLARSHIP COMPASS</span><h2>Find support that<br><em>fits your journey.</em></h2><p>Tell us a little about your studies. GRANTLY will organise your next steps and point you towards relevant official scholarship resources.</p><div class="match-note"><span>✦</span> Your details stay in this browser in this demo experience.</div></div>
+<div class="match-panel">
+<div class="match-panel-top"><span>SMARTMATCH / PROFILE BUILDER</span><span class="match-step" id="match-step">01 — YOUR STUDIES</span></div>
+<form id="smartmatch-form">
+<div class="match-fields">
+<label>Where do you study?<select name="state" required><option value="">Select your state / UT</option><option>Andhra Pradesh</option><option>Delhi</option><option>Haryana</option><option>Uttar Pradesh</option><option>Maharashtra</option><option>Rajasthan</option><option>West Bengal</option><option>Other / Not listed</option></select></label>
+<label>What are you studying?<select name="level" required><option value="">Choose study level</option><option value="school">School</option><option value="undergraduate">Undergraduate degree</option><option value="diploma">Diploma</option><option value="postgraduate">Postgraduate degree</option><option value="research">Research / PhD</option></select></label>
+<label>Course or field<input name="course" placeholder="e.g. BDS, Engineering, Arts" required></label>
+<label>Current year of study<select name="year" required><option value="">Select year</option><option>1st year</option><option>2nd year</option><option>3rd year</option><option>4th year</option><option>5th year</option><option>Final year</option></select></label>
+<label>Social category<select name="category" required><option value="">Select category</option><option>General</option><option>OBC</option><option>SC</option><option>ST</option><option>EWS</option><option>Other / Prefer not to say</option></select></label>
+<label>Approx. annual family income<select name="income" required><option value="">Choose income range</option><option value="0-1">Below ₹1 lakh</option><option value="1-2.5">₹1–2.5 lakh</option><option value="2.5-5">₹2.5–5 lakh</option><option value="5-8">₹5–8 lakh</option><option value="8+">Above ₹8 lakh</option><option value="private">Prefer not to say</option></select></label>
+</div>
+<label class="match-consent"><input type="checkbox" name="consent" required><span>I understand these details are used only to organise suggestions in this browser. I will verify every scheme's official eligibility rules.</span></label>
+<button class="match-submit" type="submit">Build my scholarship profile <span>↗</span></button>
+</form>
+<div class="match-results" id="match-results" hidden aria-live="polite"></div>
+</div>
+</section></main><footer class="footer"><a class="wordmark" href="/"><span class="logo-star">✳</span> grantly</a><span>Your next chapter starts here.</span><span>© 2026 GRANTLY · MADE FOR POSSIBILITY</span></footer></div><script src="/app.js" defer></script></body></html>
