@@ -62,7 +62,10 @@ if(smartForm&&matchResults){
     if(!flags.length) flags.push('Start with the National Scholarship Portal scheme directory and eligibility checker. Your course, institution, marks and other scheme-specific rules will determine which opportunities fit.');
     const safeCourse=String(profile.course||'your course').replace(/[<>&"]/g,'');
     matchResults.hidden=false;
-    matchResults.innerHTML='<div class="match-result-heading"><span class="chapter">YOUR PROFILE IS READY</span><h3>Your next steps, <em>not guesswork.</em></h3><p>We’ve saved your study profile on this device. Here are the official routes worth checking first.</p></div><div class="profile-summary"><span><small>FIELD</small><b>'+safeCourse+'</b></span><span><small>STUDY LEVEL</small><b>'+level.replace(/^\w/,c=>c.toUpperCase())+'</b></span><span><small>STATE / UT</small><b>'+profile.state+'</b></span><span><small>CATEGORY</small><b>'+category+'</b></span></div><div class="match-guidance"><h4>Where to look next</h4>'+flags.map((item,i)=>'<p><b>0'+(i+1)+'</b>'+item+'</p>').join('')+'</div><div class="match-actions"><a href="/scholarships.html">Explore scholarships in GRANTLY ↗</a><a href="/eligibility.html">Open my eligibility workspace ↗</a><button type="button" id="edit-match">Edit my profile</button></div><p class="match-disclaimer">These are discovery pointers, not an eligibility decision. Always read the latest official scheme guidelines and confirm with your institution or the scheme authority.</p>';
+    const starterSchemes=[{name:"PM YASASVI Post-Matric Scholarship — Delhi",category:"obc welfare delhi",summary:"A potential post-matric route for OBC/EBC/DNT students domiciled in Delhi. Check the current income ceiling, BDS/course coverage, institution rules and certificate conditions before treating this as a fit."},{name:"PM YASASVI — Top Class Education in College",category:"obc welfare",summary:"May be relevant only if your college and course are on the current notified list and you meet the income and other scheme conditions."},{name:"PM-USP Central Sector Scheme (CSSS)",category:"merit",summary:"A route to check for eligible fresh UG students who meet the Class XII merit, income and regular-course conditions."}];
+    const candidates=starterSchemes.filter(x=>(!x.category.includes("obc")||category==="OBC")&&(!x.category.includes("delhi")||profile.state==="Delhi")&&(!x.category.includes("merit")||level==="undergraduate")).slice(0,4);
+    const candidateHtml=candidates.length?'<div class="match-opportunities"><h4>Opportunities to explore in GRANTLY</h4>'+candidates.map(x=>'<article class="match-opportunity"><span>CHECK THIS ROUTE</span><b>'+x.name+'</b><p>'+x.summary+'</p><a href="/scholarships.html?search='+encodeURIComponent(safeCourse)+'">View in scholarship directory ↗</a></article>').join('')+'</div>':'<div class="match-opportunities"><h4>Explore the full directory</h4><p>We do not have a verified catalogue match for every profile yet. Browse all listings and check the scheme conditions.</p><a href="/scholarships.html">Open GRANTLY directory ↗</a></div>';
+    matchResults.innerHTML='<div class="match-result-heading"><span class="chapter">YOUR PROFILE IS READY</span><h3>Your next steps, <em>not guesswork.</em></h3><p>We’ve saved your study profile on this device. These are potential routes to investigate, not confirmed eligibility matches.</p></div><div class="profile-summary"><span><small>FIELD</small><b>'+safeCourse+'</b></span><span><small>STUDY LEVEL</small><b>'+level.replace(/^\w/,c=>c.toUpperCase())+'</b></span><span><small>STATE / UT</small><b>'+profile.state+'</b></span><span><small>CATEGORY</small><b>'+category+'</b></span></div>'+candidateHtml+'<div class="match-guidance"><h4>Important checks</h4>'+flags.map((item,i)=>'<p><b>0'+(i+1)+'</b>'+item+'</p>').join('')+'</div><div class="match-actions"><a href="/scholarships.html">Explore all scholarships ↗</a><a href="/passport.html">Create my Scholarship Passport ↗</a><button type="button" id="edit-match">Edit my profile</button></div><p class="match-disclaimer">These are discovery pointers, not an eligibility decision. Always read the latest scheme guidelines and confirm with your institution or the scheme authority.</p>';
     matchResults.scrollIntoView({behavior:'smooth',block:'start'});
     const edit=document.querySelector('#edit-match');
     if(edit) edit.addEventListener('click',()=>{matchResults.hidden=true;smartForm.scrollIntoView({behavior:'smooth',block:'center'});});
@@ -153,7 +156,49 @@ if(smartForm&&matchResults){
   out.innerHTML=rows.map(x=>{const d=new Date(x.deadline+"T00:00:00"),days=Math.ceil((d-today)/86400000),label=days<0?"Past deadline":days===0?"Due today":days+" days left";return '<article class="deadline-row"><div class="deadline-date"><b>'+d.toLocaleDateString(undefined,{day:"2-digit"})+'</b><span>'+d.toLocaleDateString(undefined,{month:"short",year:"numeric"})+'</span></div><div><b>'+esc(x.name)+'</b><p>'+esc(x.provider||"Provider not added")+' · '+esc(x.status)+'</p></div><strong class="'+(days>=0&&days<=14?"deadline-soon":"")+'">'+label+'</strong></article>'}).join("");
  }
  const passportForm=$("#passport-form");
- if(passportForm){const p=read(passportKey,{}),smart=profile();["course","year"].forEach(k=>{if(!p[k]&&smart[k])p[k]=smart[k]});Object.entries(p).forEach(([k,v])=>{if(passportForm.elements[k])passportForm.elements[k].value=v});passportForm.addEventListener("submit",e=>{e.preventDefault();const v=Object.fromEntries(new FormData(passportForm));write(passportKey,v);$("#passport-feedback").textContent="Passport saved on this device.";renderReadiness();});}
+ if(passportForm){
+  const fields=["full_name","institution","course","study_level","study_year","state","academic_score","category","achievements"];
+  const card=(p,email)=>{
+   const val=(k,fallback="Not added yet")=>p[k]||fallback;
+   $("#passport-card-name").textContent=val("full_name","Your name goes here");
+   $("#passport-card-email").textContent=email||"";
+   $("#passport-card-course").textContent=val("course");
+   $("#passport-card-institution").textContent=val("institution");
+   $("#passport-card-level").textContent=val("study_level");
+   $("#passport-card-year").textContent=val("study_year");
+   $("#passport-number").textContent=p.full_name?"ID · "+String((p.full_name+"-"+(email||"")).split("").reduce((a,c)=>a+c.charCodeAt(0),0)).slice(-6):"ID · NOT ISSUED";
+   $("#passport-card-status").textContent=p.full_name&&p.course&&p.institution?"PROFILE READY":"PROFILE INCOMPLETE";
+   $("#passport-avatar").textContent=(p.full_name||"✳").trim().charAt(0).toUpperCase();
+  };
+  const local=read(passportKey,{}),smart=profile();
+  const defaults={course:smart.course||"",study_year:smart.year||"",study_level:smart.level==="undergraduate"?"Undergraduate":smart.level||"",state:smart.state||"",category:smart.category||""};
+  fields.forEach(k=>{if(passportForm.elements[k])passportForm.elements[k].value=local[k]||defaults[k]||""});
+  const account=$("#passport-account"),feedback=$("#passport-feedback");
+  async function loadAccount(){
+   try{
+    const session=await window.hatchable.auth.getSession();
+    if(!session?.user){account.innerHTML='<span class="account-dot"></span><span>Not signed in · <a href="/login.html?next=/passport.html">Sign in to save your passport</a></span>';card(local,"");return}
+    account.innerHTML='<span class="account-dot"></span><span>Signed in as '+esc(session.user.email)+'</span><button type="button" id="passport-signout">Sign out</button>';
+    $("#passport-signout").addEventListener("click",async()=>{await window.hatchable.auth.signOut();location.href="/login.html"});
+    const response=await fetch("/api/profile",{credentials:"include"});
+    if(!response.ok)throw new Error("Could not load your account profile");
+    const data=await response.json(),saved=data.profile||{};
+    fields.forEach(k=>{if(passportForm.elements[k]&&saved[k]!=null)passportForm.elements[k].value=saved[k]});
+    card(saved,session.user.email);
+   }catch(e){account.textContent="Sign in to save and sync your passport across devices.";card(local,"")}
+  }
+  passportForm.addEventListener("submit",async e=>{
+   e.preventDefault();const v=Object.fromEntries(new FormData(passportForm));write(passportKey,v);card(v,"");
+   try{
+    const response=await fetch("/api/profile",{method:"PUT",credentials:"include",headers:{"Content-Type":"application/json"},body:JSON.stringify(v)});
+    if(response.status===401){feedback.innerHTML='Please <a href="/login.html?next=/passport.html">sign in</a> to save this passport to your account.';return}
+    if(!response.ok)throw new Error("Save failed");
+    const session=await window.hatchable.auth.getSession();card(v,session?.user?.email||"");feedback.textContent="Passport saved securely to your GRANTLY account.";
+   }catch(err){feedback.textContent="Saved on this device for now. Sign in to sync your passport to your account."}
+   renderReadiness();
+  });
+  loadAccount();
+ }
  const vaultForm=$("#vault-form");
  function renderVault(){const out=$("#vault-list");if(!out)return;const docs=read(vaultKey,[]);out.innerHTML=docs.length?docs.map((d,i)=>'<div class="vault-row"><div><b>'+esc(d.name)+'</b><small>'+(d.expiry?"Expiry: "+esc(d.expiry):"No expiry date")+(d.notes?" · "+esc(d.notes):"")+'</small></div><button type="button" data-vault-remove="'+i+'">Remove</button></div>').join(""):'<p class="hub-placeholder">Your document checklist is empty. Add the documents you need to prepare.</p>';out.querySelectorAll("[data-vault-remove]").forEach(b=>b.addEventListener("click",()=>{const a=read(vaultKey,[]);a.splice(Number(b.dataset.vaultRemove),1);write(vaultKey,a);renderVault();renderReadiness();}));}
  vaultForm?.addEventListener("submit",e=>{e.preventDefault();const d=Object.fromEntries(new FormData(vaultForm));const a=read(vaultKey,[]);a.push(d);write(vaultKey,a);vaultForm.reset();renderVault();renderReadiness();});renderVault();
@@ -166,6 +211,7 @@ if(smartForm&&matchResults){
   a.onchange=draw;b.onchange=draw;draw();
  }
  function renderReadiness(){
+  if(!$("#readiness-number"))return;
   const p=profile(),pass=read(passportKey,{}),apps=tracker(),docs=read(vaultKey,[]);
   const checks=[["SmartMatch profile completed",Boolean(p.course&&p.state&&p.level&&p.category)],["Passport details added",Boolean(pass.name&&pass.institution&&pass.course)],["At least one opportunity saved",apps.length>0],["Application deadline recorded",apps.some(x=>x.deadline)],["Documents checklist started",docs.length>0],["At least one application submitted",apps.some(x=>x.status==="Submitted"||x.status==="Approved")]];
   const score=Math.round(checks.filter(x=>x[1]).length/checks.length*100);
@@ -180,7 +226,7 @@ if(smartForm&&matchResults){
  const root=document.querySelector("#scholarship-results");if(!root)return;
  const records=[
  {id:"yasasvi-college",name:"PM YASASVI — Top Class Education in College",provider:"Department of Social Justice & Empowerment",category:"obc welfare",audience:"OBC, EBC and DNT students",level:"College / undergraduate and eligible higher education",deadline:"2026-11-30",summary:"Central sector support for eligible students admitted to notified institutions. Institution/course list, income ceiling and detailed conditions must be checked.",source:"https://scholarships.gov.in/All-Scholarships",sourceLabel:"National Scholarship Portal"},
- {id:"delhi-obc-post",name:"PM YASASVI Post-Matric Scholarship — Delhi",provider:"Government of NCT of Delhi",category:"obc welfare delhi",audience:"OBC, EBC and DNT students domiciled in Delhi",level:"Post-matric studies",deadline:"2027-02-15",summary:"Delhi domicile scheme listed on NSP for AY 2026–27. Confirm domicile, category certificate, income and course conditions in the current scheme notice.",source:"https://scholarships.gov.in/allschemesdomicile?stateidschems=76",sourceLabel:"NSP — Delhi domicile schemes"},
+ {id:"delhi-obc-post",name:"PM YASASVI Post-Matric Scholarship — Delhi",provider:"Government of NCT of Delhi",category:"obc welfare delhi",audience:"OBC, EBC and DNT students domiciled in Delhi",level:"Post-matric studies",deadline:"2027-02-15",matchTerms:"bds dental medical health professional degree undergraduate",summary:"Delhi domicile scheme listed on NSP for AY 2026–27. Confirm domicile, category certificate, income and course conditions in the current scheme notice.",source:"https://scholarships.gov.in/allschemesdomicile?stateidschems=76",sourceLabel:"NSP — Delhi domicile schemes"},
  {id:"delhi-sc-post",name:"Post-Matric Scholarship for SC Students — Delhi",provider:"Government of NCT of Delhi",category:"welfare delhi",audience:"SC students domiciled in Delhi",level:"Post-matric studies",deadline:"2027-02-15",summary:"Delhi domicile scheme listed on NSP for AY 2026–27. Verify course, institution, income, domicile and certificate requirements before applying.",source:"https://scholarships.gov.in/allschemesdomicile?stateidschems=76",sourceLabel:"NSP — Delhi domicile schemes"},
  {id:"pmusp-renewal",name:"PM-USP Central Sector Scheme (CSSS) — Renewal",provider:"Department of Higher Education",category:"merit",audience:"Existing scholarship holders applying for renewal",level:"College and university students",deadline:"2026-11-30",summary:"The current NSP listing specifically identifies the renewal application window. Fresh applicants should not assume this listing is open to them; check the scheme notice.",source:"https://scholarships.gov.in/All-Scholarships",sourceLabel:"National Scholarship Portal"},
  {id:"pragati-degree",name:"AICTE Pragati Scholarship — Technical Degree",provider:"All India Council for Technical Education",category:"merit",audience:"Girl students meeting the AICTE scheme conditions",level:"AICTE-approved technical degree programmes",deadline:"2026-11-30",summary:"Listed for AY 2026–27 on NSP. This is for eligible technical degree programmes; do not assume every university or professional course qualifies.",source:"https://scholarships.gov.in/All-Scholarships",sourceLabel:"National Scholarship Portal"},
@@ -189,10 +235,12 @@ if(smartForm&&matchResults){
  {id:"postmatric-disability",name:"Post-Matric Scholarship for Students with Disabilities",provider:"Department of Empowerment of Persons with Disabilities",category:"disability welfare",audience:"Eligible students with benchmark disabilities",level:"Post-matric studies",deadline:"2026-11-30",summary:"Listed for AY 2026–27 on NSP. Disability certification, course, income and other scheme rules apply. NSP notes UDID consent requirements for disabled applicants.",source:"https://scholarships.gov.in/All-Scholarships",sourceLabel:"National Scholarship Portal"}
  ];
  const esc=s=>String(s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+ window.GRANTLY_SCHEMES=records;
  const search=document.querySelector("#scholarship-search"),cat=document.querySelector("#scholarship-category"),status=document.querySelector("#scholarship-status"),count=document.querySelector("#catalogue-count");
+ const initialSearch=new URLSearchParams(location.search).get("search");if(initialSearch)search.value=initialSearch;
  function render(){
   const q=(search.value||"").toLowerCase().trim(),c=cat.value,s=status.value;
-  const rows=records.filter(x=>(!q||[x.name,x.provider,x.audience,x.level,x.summary].join(" ").toLowerCase().includes(q))&&(c==="all"||x.category.split(" ").includes(c))&&(s==="all"||(s==="open"&&x.deadline>="2026-11-07")||(s==="soon"&&x.deadline<="2026-11-30")));
+  const rows=records.filter(x=>(!q||[x.name,x.provider,x.audience,x.level,x.summary,x.matchTerms||""].join(" ").toLowerCase().includes(q))&&(c==="all"||x.category.split(" ").includes(c))&&(s==="all"||(s==="open"&&x.deadline>="2026-11-07")||(s==="soon"&&x.deadline<="2026-11-30")));
   count.textContent=rows.length+" opportunities in this catalogue";
   root.innerHTML=rows.map(x=>'<article class="scholarship-card"><div class="scholarship-card-top"><span class="scheme-tag">'+(x.category.includes("merit")?"MERIT BASED":"WELFARE / CATEGORY BASED")+'</span><span class="scheme-deadline">APPLY BY '+new Date(x.deadline+"T00:00:00").toLocaleDateString("en-IN",{day:"numeric",month:"short",year:"numeric"})+'</span></div><h2>'+esc(x.name)+'</h2><p class="scheme-provider">'+esc(x.provider)+'</p><div class="scheme-facts"><span><small>WHO IT IS FOR</small><b>'+esc(x.audience)+'</b></span><span><small>STUDY LEVEL</small><b>'+esc(x.level)+'</b></span></div><p class="scheme-summary">'+esc(x.summary)+'</p><div class="scheme-actions"><button type="button" data-save="'+esc(x.id)+'">＋ Save to my applications</button><a href="'+esc(x.source)+'" target="_blank" rel="noopener">Verify source ↗</a></div><small class="scheme-source">SOURCE: '+esc(x.sourceLabel)+' · NSP AY 2026–27</small></article>').join("")||'<div class="catalogue-empty">No matching scholarships in this starter catalogue. Try another filter or broaden your search.</div>';
   root.querySelectorAll("[data-save]").forEach(btn=>btn.addEventListener("click",()=>{
@@ -203,4 +251,15 @@ if(smartForm&&matchResults){
   }));
  }
  [search,cat,status].forEach(el=>el.addEventListener("input",render));render();
+})();
+/* GRANTLY account-aware navigation */
+(function(){
+ const nav=document.querySelector(".topbar");if(!nav)return;
+ const slot=document.createElement("a");slot.className="account-nav";slot.href="/login.html?next=/passport.html";slot.textContent="Sign in ↗";
+ const cta=nav.querySelector(".nav-cta");if(cta)cta.insertAdjacentElement("beforebegin",slot);else nav.appendChild(slot);
+ const A=window.hatchable&&window.hatchable.auth;if(!A)return;
+ A.getSession().then(s=>{
+  if(!s||!s.user)return;
+  slot.href="/passport.html";slot.textContent="My passport ↗";slot.title=s.user.email;
+ }).catch(()=>{});
 })();
