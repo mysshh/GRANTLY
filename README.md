@@ -1,19 +1,24 @@
-# GRANTLY
+# GRANTLY — Your Future, Funded.
 
-[![Deploy to Hatchable](https://hatchable.com/deploy-button.svg)](https://hatchable.com/deploy?repo=https://github.com/mysshh/GRANTLY)
+India-first scholarship discovery and student funding companion.
 
-An India-first scholarship discovery and student funding companion, built with a portable frontend and Vercel-ready architecture.
+**Live:** https://grantly.hatchable.site  
+**Repository:** https://github.com/mysshh/GRANTLY
 
-This folder is a complete Hatchable project. Everything the app needs is in these files: pages, API routes, database migrations, seed data, and the hatchable.toml manifest that declares the services and keys it uses.
+## Features
+- Scholarship directory with 27 curated opportunities, search, filters, providers and official source links.
+- SmartMatch profile screening with explainable potential routes, not eligibility guarantees.
+- Application tracker for saved opportunities, stages, deadlines and notes.
+- Student workspace: Eligibility Decoder, Deadline Radar, Scholarship Passport, Document Vault, Funding Copilot, Compare and Readiness Score.
 
-## Run your own copy
+## Technology
+Semantic HTML, CSS, vanilla JavaScript, six frontend modules, Hatchable hosting/authentication, user-scoped Passport API and PostgreSQL student profile table. Automated quality checks use Node's built-in test runner; no npm dependencies.
 
-1. Go to https://hatchable.com/deploy
-2. Bring this folder as a .zip, or point the importer at a Git repository that contains it
-3. Your copy gets its own database, its own URL, and connects to your own keys
+## Local preview
+Python 3: `python -m http.server 4173 --directory public`, then open http://localhost:4173. Account authentication and Passport API require Hatchable.
 
-## About Hatchable
+## Verify
+Node.js 20+: `npm run check`.
 
-Hatchable is where AI-built apps go live. Connect the AI you already use and it can build, deploy, and run apps like this one for you.
-
-Built on Hatchable. https://hatchable.com
+## Product boundaries
+GRANTLY is an independent discovery/planning tool, not a government portal or application-submission service. Catalogue entries are curated, not a live feed. Official notices remain authoritative. SmartMatch is not an eligibility guarantee; Funding Copilot uses templates; tracker, SmartMatch and checklist are browser-local. Do not enter private identity or bank details in free-text fields.
