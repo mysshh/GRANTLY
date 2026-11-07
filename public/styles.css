@@ -35,3 +35,19 @@ a:focus-visible,button:focus-visible{outline:2px solid #f0dfff;outline-offset:5p
 @keyframes heroArrive{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
 @media(max-width:760px){.story-section:before{width:300px;height:300px;right:-200px}.scene h3{font-size:25px}.story-copy,.story-art,.scene,.discovery-heading{transform:translateY(14px)}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;scroll-behavior:auto!important;transition:none!important}.story-copy,.story-art,.scene,.discovery-heading{opacity:1;transform:none}}
+/* One persistent illustrated world, like the reference experience. */
+body{background:#17152f}
+body:before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(ellipse at 68% 34%,#65528c 0%,#382e62 38%,#211c42 76%,#17152f 100%)}
+.site-shell{position:relative;overflow:clip}
+main{position:relative;z-index:1}
+.topbar,.footer{position:relative;z-index:2}
+.academic-world{position:fixed!important;inset:0!important;width:100vw;height:100vh;z-index:0!important;opacity:.9;overflow:hidden;pointer-events:none}
+.world-hero{background:transparent!important}
+.story-one,.story-two{background:linear-gradient(90deg,#201c3b70,#2a23445c)!important}
+.discovery-section{background:#211d3dbd!important;color:#f4eff7}
+.discovery-heading .chapter{color:#d0c0e8}
+.discovery-heading>p{color:#d0c9dc}
+.verification-note{color:#c0b6d0}
+.final-world{background:linear-gradient(180deg,#211b3b35,#17142f82)!important}
+.hero-bottom{z-index:15}
+@media(max-width:760px){.academic-world{opacity:.72}.story-one,.story-two{background:#211d3d78!important}.discovery-section{background:#211d3de0!important}}
