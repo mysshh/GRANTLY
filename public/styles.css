@@ -2,6 +2,8 @@
 
 /* HOMEPAGE V2 — editorial composition, holographic education scene, and horizontal discovery rail */
 
+/* Keyboard accessibility: visible skip link when focused */
+.skip-link{position:absolute;z-index:999;top:8px;left:8px;padding:11px 15px;border-radius:7px;background:#e8f7ff;color:#04142a;font-weight:800;transform:translateY(-160%);transition:transform .18s}.skip-link:focus{transform:translateY(0)}
 /* Exact reference recreation: GRANTLY neon education landing page */
 body.grantly-reference-home{margin:0;background:#020817;color:#f3f7ff;font-family:"DM Sans",sans-serif;overflow-x:hidden}
 .grantly-reference-home .reference-shell{min-height:100vh;background:#020817;position:relative;isolation:isolate}
@@ -707,3 +709,72 @@ input,select,textarea{accent-color:#29c4ff}:focus-visible{outline:2px solid #49d
 @media(max-width:800px){.topbar{height:66px!important;padding:0 20px!important}.world-hero{height:auto;min-height:850px}.world-hero:before{background:linear-gradient(180deg,#050a14 0%,#050a14ed 34%,#050a1470 62%,#050a14 100%)!important}.world-hero:after{top:43%!important;right:-10%!important;width:110%!important;height:54%!important;opacity:.9}.hero-copy{top:15%;left:7%;width:86%}.hero-copy h1{font-size:clamp(58px,12vw,88px)}.distant-campus{right:0;bottom:7%;width:95%;height:43%}.floating-paper.paper-one{right:5%;top:55%}.floating-paper.paper-two{right:48%;top:47%}.nav-links{display:none}.topbar .nav-cta{display:none}.menu-toggle{display:block;margin-left:auto}.home-link-grid{grid-template-columns:1fr 1fr}.page-title{padding:55px 7% 38px!important}}
 @media(max-width:540px){.home-link-grid{grid-template-columns:1fr}.home-link-grid a{border-right:0!important}.world-hero{min-height:820px}.hero-copy h1{font-size:clamp(54px,14vw,76px)}.floating-paper{padding:12px 14px}.page-title h1{font-size:clamp(44px,12vw,66px)}.match-panel{padding:20px}}
 @media(prefers-reduced-motion:reduce){.distant-campus:before,.distant-campus:after{animation:none!important}}
+/* GRANTLY product-wide UI system — all internal workspaces, excluding the cinematic homepage */
+body:not(.grantly-reference-home){background:#020817!important;color:#edf5ff!important;font-family:"DM Sans",sans-serif}
+body:not(.grantly-reference-home) .site-shell{min-height:100vh;background:radial-gradient(ellipse at 50% 0%,#082b50 0%,#06152a 38%,#020817 78%)!important;color:#edf5ff!important}
+body:not(.grantly-reference-home) .topbar{position:sticky!important;top:0;z-index:50;height:76px!important;padding:0 6%!important;background:#04142be8!important;border-bottom:1px solid #1d5c8c!important;backdrop-filter:blur(18px)!important;box-shadow:0 8px 28px #0005}
+body:not(.grantly-reference-home) .wordmark{color:#f5fbff!important;font:800 21px Manrope,sans-serif!important;letter-spacing:-.04em!important}
+body:not(.grantly-reference-home) .logo-star{color:#39dfff!important;text-shadow:0 0 16px #078dff!important}
+body:not(.grantly-reference-home) .nav-links{gap:clamp(14px,2.5vw,30px)!important}
+body:not(.grantly-reference-home) .nav-links a,body:not(.grantly-reference-home) .nav-cta{color:#c7d9ef!important;font-size:11px!important;letter-spacing:.02em!important;text-transform:none!important}
+body:not(.grantly-reference-home) .nav-links a:hover,body:not(.grantly-reference-home) .nav-links a[aria-current=page]{color:#59e4ff!important}
+body:not(.grantly-reference-home) .nav-links a:after{background:#35d9ff!important}
+body:not(.grantly-reference-home) .account-nav{border:1px solid #2b9ed1!important;border-radius:8px!important;color:#a7edff!important;background:#062447!important;font-size:10px!important}
+body:not(.grantly-reference-home) .nav-cta{border:1px solid #258bd2!important;border-radius:8px!important;background:#07346a!important;color:#f4fbff!important}
+body:not(.grantly-reference-home) .menu-toggle{color:#e8faff!important;border:1px solid #27618e!important;border-radius:8px!important;padding:8px 12px!important}
+body:not(.grantly-reference-home) .page-main{max-width:1240px!important;margin:0 auto!important;padding:45px 5.5% 90px!important}
+body:not(.grantly-reference-home) .page-title{position:relative;padding:48px 0 42px!important;border-bottom:1px solid #1c4d76!important;background:radial-gradient(ellipse at 80% 0%,#0b4a8230,transparent 50%)!important}
+body:not(.grantly-reference-home) .page-title:after{content:"";position:absolute;right:3%;top:28px;width:170px;height:170px;border:1px solid #1b83c044;border-radius:50%;box-shadow:0 0 0 16px #168dff08,0 0 0 38px #168dff05;pointer-events:none}
+body:not(.grantly-reference-home) .chapter{color:#57dfff!important;letter-spacing:.16em!important;font-weight:800!important;font-size:10px!important}
+body:not(.grantly-reference-home) .page-title h1{color:#f2f7ff!important;font:800 clamp(48px,6.2vw,76px)/.98 Manrope,sans-serif!important;letter-spacing:-.06em!important}
+body:not(.grantly-reference-home) .page-title h1 em,body:not(.grantly-reference-home) .passport-editor-heading h2 em{color:transparent!important;background:linear-gradient(100deg,#6ca8ff,#1cb8ff 58%,#39e5ed)!important;background-clip:text!important;-webkit-background-clip:text!important;-webkit-text-stroke:0!important}
+body:not(.grantly-reference-home) .catalogue-section,body:not(.grantly-reference-home) .match-section,body:not(.grantly-reference-home) .passport-editor,body:not(.grantly-reference-home) .home-links,body:not(.grantly-reference-home) .tracker-section{background:transparent!important;color:#edf5ff!important}
+body:not(.grantly-reference-home) .catalogue-toolbar input,body:not(.grantly-reference-home) .catalogue-toolbar select,body:not(.grantly-reference-home) input,body:not(.grantly-reference-home) select,body:not(.grantly-reference-home) textarea{background:#061a32!important;border:1px solid #2a5c83!important;border-radius:8px!important;color:#eef8ff!important;min-height:44px;padding:11px 13px}
+body:not(.grantly-reference-home) input::placeholder,body:not(.grantly-reference-home) textarea::placeholder{color:#7994b2!important}
+body:not(.grantly-reference-home) label{color:#d9e8f8!important;font-weight:600}
+body:not(.grantly-reference-home) .scholarship-card,body:not(.grantly-reference-home) .match-panel,body:not(.grantly-reference-home) .passport-card,body:not(.grantly-reference-home) .passport-editor,body:not(.grantly-reference-home) .hub-panel,body:not(.grantly-reference-home) .tracker-card,body:not(.grantly-reference-home) .home-link-grid a,body:not(.grantly-reference-home) .hub-output,body:not(.grantly-reference-home) .match-opportunity{background:linear-gradient(145deg,#071c36,#061328)!important;border:1px solid #245783!important;border-radius:12px!important;color:#edf6ff!important;box-shadow:0 14px 30px #0003,inset 0 0 22px #087cff0b!important}
+body:not(.grantly-reference-home) .scholarship-card h2,body:not(.grantly-reference-home) .match-opportunity b,body:not(.grantly-reference-home) .tracker-card h4,body:not(.grantly-reference-home) .home-link-grid b{color:#f1f8ff!important}
+body:not(.grantly-reference-home) .scholarship-card p,body:not(.grantly-reference-home) .match-intro p,body:not(.grantly-reference-home) .match-opportunity p,body:not(.grantly-reference-home) .passport-intro p,body:not(.grantly-reference-home) .hub-panel-intro p{color:#b4cbe4!important;line-height:1.65}
+body:not(.grantly-reference-home) .scheme-tag,body:not(.grantly-reference-home) .ref-pill{background:#062d4c!important;border:1px solid #159bd0!important;color:#6ce7ff!important}
+body:not(.grantly-reference-home) button,body:not(.grantly-reference-home) .match-submit,body:not(.grantly-reference-home) .hub-action{min-height:42px;border-radius:8px!important;background:linear-gradient(105deg,#0866c9,#08a8cf)!important;border:1px solid #45d5ff!important;color:#fff!important;font-weight:700!important;cursor:pointer;transition:transform .2s,box-shadow .2s,filter .2s}
+body:not(.grantly-reference-home) button:hover,body:not(.grantly-reference-home) .match-submit:hover,body:not(.grantly-reference-home) .hub-action:hover{transform:translateY(-2px);box-shadow:0 8px 22px #078bff44!important;filter:brightness(1.08)}
+body:not(.grantly-reference-home) button:disabled{opacity:.55;cursor:not-allowed;transform:none}
+body:not(.grantly-reference-home) a{color:#68dfff}
+body:not(.grantly-reference-home) a:hover{color:#b5f4ff}
+body:not(.grantly-reference-home) .footer{border-top:1px solid #1e5c86!important;background:#031126!important;color:#9db5d1!important}
+body:not(.grantly-reference-home) .footer .wordmark{color:#f2f8ff!important}
+body:not(.grantly-reference-home) .match-note,body:not(.grantly-reference-home) .match-consent,body:not(.grantly-reference-home) .passport-privacy,body:not(.grantly-reference-home) .catalogue-disclaimer,body:not(.grantly-reference-home) .match-disclaimer{color:#8eaac7!important}
+body:not(.grantly-reference-home) .match-result-heading h3,body:not(.grantly-reference-home) .hub-panel-intro h3,body:not(.grantly-reference-home) .passport-editor-heading h2{color:#f1f8ff!important}
+body:not(.grantly-reference-home) .readiness-track{background:#102a45!important}
+body:not(.grantly-reference-home) .readiness-track span{background:linear-gradient(90deg,#087cff,#35e2ee)!important}
+body:not(.grantly-reference-home) .hub-tab{border:1px solid #275b82!important;background:#071a31!important;color:#bcd3eb!important;border-radius:8px!important}
+body:not(.grantly-reference-home) .hub-tab.active{background:#073d6d!important;border-color:#35caff!important;color:#fff!important}
+body:not(.grantly-reference-home) .passport-card{box-shadow:0 18px 40px #0005,inset 0 0 35px #168cff18!important}
+body:not(.grantly-reference-home) .passport-card-bottom,body:not(.grantly-reference-home) .passport-card-grid{border-color:#28628b!important}
+body:not(.grantly-reference-home) .passport-avatar{background:linear-gradient(145deg,#168aff,#24cce4)!important;color:#fff!important}
+body:not(.grantly-reference-home) .catalogue-meta{color:#9bb6d0!important}
+body:not(.grantly-reference-home) .match-fields{gap:16px!important}
+body:not(.grantly-reference-home) .match-panel-top{color:#6edfff!important}
+body:not(.grantly-reference-home) .profile-summary{background:#061b34!important;border:1px solid #245783!important;border-radius:10px!important}
+body:not(.grantly-reference-home) .match-not-fit{opacity:.78}
+body:not(.grantly-reference-home) .catalogue-empty,body:not(.grantly-reference-home) .hub-placeholder,body:not(.grantly-reference-home) .tracker-empty{background:#06182e!important;border:1px dashed #2b668f!important;border-radius:10px!important;color:#b8cde4!important;padding:24px!important}
+body:not(.grantly-reference-home) :focus-visible{outline:3px solid #62e9ff!important;outline-offset:3px!important}
+@media(max-width:760px){
+ body:not(.grantly-reference-home) .topbar{height:66px!important;padding:0 18px!important}
+ body:not(.grantly-reference-home) .nav-links{display:none;position:absolute!important;top:66px!important;left:0!important;right:0!important;transform:none!important;padding:18px!important;gap:8px!important;flex-direction:column!important;align-items:stretch!important;background:#04152cf7!important;border:1px solid #23628d!important;border-radius:0 0 12px 12px!important}
+ body:not(.grantly-reference-home) .nav-links.open{display:flex!important}
+ body:not(.grantly-reference-home) .nav-links a{padding:12px!important;font-size:13px!important}
+ body:not(.grantly-reference-home) .nav-cta{display:none!important}
+ body:not(.grantly-reference-home) .menu-toggle{display:block!important;margin-left:12px!important;min-width:44px;min-height:44px}
+ body:not(.grantly-reference-home) .page-main{padding:20px 5% 60px!important}
+ body:not(.grantly-reference-home) .page-title{padding:35px 0 28px!important}
+ body:not(.grantly-reference-home) .page-title:after{width:110px;height:110px;right:0;top:25px}
+ body:not(.grantly-reference-home) .catalogue-toolbar{grid-template-columns:1fr!important}
+ body:not(.grantly-reference-home) .scholarship-grid{grid-template-columns:1fr!important}
+ body:not(.grantly-reference-home) .match-fields{grid-template-columns:1fr!important}
+ body:not(.grantly-reference-home) .passport-layout{grid-template-columns:1fr!important}
+ body:not(.grantly-reference-home) .passport-form{grid-template-columns:1fr!important}
+ body:not(.grantly-reference-home) .home-link-grid{grid-template-columns:1fr 1fr!important}
+ body:not(.grantly-reference-home) .footer{gap:14px;flex-wrap:wrap;padding:25px 6%!important}
+}
+@media(max-width:420px){body:not(.grantly-reference-home) .home-link-grid{grid-template-columns:1fr!important}body:not(.grantly-reference-home) .account-nav{display:none!important}}
