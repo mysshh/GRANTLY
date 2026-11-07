@@ -1,0 +1,5 @@
+# Hatchable project manifest. This file marks the folder as a
+# Hatchable project and declares the services it uses.
+# Reference: https://hatchable.com/docs/developers/config
+name = "GRANTLY"
+description = "An India-first scholarship discovery and student funding companion, built with a portable frontend and Vercel-ready architecture."
