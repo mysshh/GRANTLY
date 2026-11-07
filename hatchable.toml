@@ -1,6 +1,6 @@
 [auth]
 enabled = true
-providers = ["email"]
+providers = ["email", "google"]
 
 [db.tables.student_profiles]
 read = "own"
