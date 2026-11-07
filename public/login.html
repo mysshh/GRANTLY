@@ -1,5 +1,86 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>Sign in · GRANTLY</title><link rel="stylesheet" href="/styles.css"><style>
-body{background:#101010;color:#f5f4f0;min-height:100vh;display:grid;place-items:center;padding:24px}.login-wrap{width:min(480px,100%);border:1px solid #ffffff38;padding:42px;background:#171715}.login-brand{font:800 25px Manrope,sans-serif;letter-spacing:-.08em}.login-brand i{color:#d8ff48;font-style:normal}.login-kicker{color:#d8ff48;font-size:9px;letter-spacing:.18em;margin:45px 0 14px}.login-wrap h1{font:800 clamp(42px,8vw,65px)/.9 Manrope,sans-serif;letter-spacing:-.09em;text-transform:uppercase;margin:0}.login-wrap h1 em{font-style:normal;color:transparent;-webkit-text-stroke:1px #f5f4f0}.login-sub{color:#aaa;font-size:12px;line-height:1.7;margin:22px 0 28px}.login-wrap input{width:100%;padding:16px;background:#222;border:1px solid #555;color:white;margin-bottom:12px}.google-signin{display:flex;align-items:center;justify-content:center;gap:12px;width:100%;padding:15px;background:#f5f4f0;color:#151515;text-decoration:none;font-size:12px;font-weight:800}.google-g{font:800 20px Arial;color:#4285f4}.login-or{display:flex;align-items:center;gap:12px;color:#777;font-size:8px;letter-spacing:.14em;margin:18px 0}.login-or:before,.login-or:after{content:"";height:1px;background:#444;flex:1}.login-wrap button{width:100%;padding:16px;background:#d8ff48;color:#111;border:0;font-weight:800;text-transform:uppercase;cursor:pointer}.login-wrap button.alt{margin-top:9px;background:transparent;color:#aaa;border:1px solid #555}.login-msg{min-height:22px;color:#d8ff48;font-size:12px;margin-top:15px}.login-foot{font-size:10px;color:#777;line-height:1.6;margin-top:28px}.login-wrap [hidden]{display:none!important}
-</style></head><body><main class="login-wrap"><a class="login-brand" href="/"><i>✳</i> grantly</a><div class="login-kicker">YOUR STUDENT IDENTITY, ALL IN ONE PLACE</div><h1>Welcome<br><em>back.</em></h1><p class="login-sub">Sign in or create your free GRANTLY account with an email code. No password to remember.</p><a class="google-signin" href="/api/auth/google/start?next=/passport.html"><span class="google-g">G</span> Continue with Google ↗</a><div class="login-or"><span>OR CONTINUE WITH EMAIL</span></div><form id="login-form"><div id="email-row"><input id="email" type="email" placeholder="Your email address" autocomplete="username webauthn" required></div><div id="code-row" hidden><input id="code" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="Enter your 6-digit code"></div><button id="submit" type="submit">Continue with email ↗</button><button id="back" class="alt" type="button" hidden>Use a different email</button></form><div id="passkey-row" hidden><p class="login-sub">Add a passkey to sign in next time with your fingerprint, face or device lock.</p><button id="passkey-add">Add a passkey</button><button id="passkey-skip" class="alt">Not now</button></div><p class="login-msg" id="message" role="status"></p><p class="login-foot">By continuing, you agree to use GRANTLY as an independent scholarship discovery and planning tool. Your profile is private to your account.</p></main><script>
-(()=>{const A=window.hatchable?.auth,form=document.querySelector("#login-form"),email=document.querySelector("#email"),code=document.querySelector("#code"),emailRow=document.querySelector("#email-row"),codeRow=document.querySelector("#code-row"),submit=document.querySelector("#submit"),back=document.querySelector("#back"),msg=document.querySelector("#message"),pass=document.querySelector("#passkey-row");let step="email",hasPasskey=false;const next=()=>{const n=new URLSearchParams(location.search).get("next")||"/passport.html";return n.startsWith("/")&&!n.startsWith("//")?n:"/passport.html"};const say=t=>msg.textContent=t;if(!A){say("Sign-in is unavailable. Please refresh.");submit.disabled=true;return}A.getSession().then(s=>{if(s?.user)location.replace(next())}).catch(()=>{});form.addEventListener("submit",async e=>{e.preventDefault();submit.disabled=true;try{if(step==="email"){const result=await A.startLogin({email:email.value.trim()});hasPasskey=!!result.has_passkey;if(hasPasskey&&A.supportsPasskeys()){try{await A.signInWithPasskey({email:email.value.trim()});location.replace(next());return}catch(err){}}step="code";emailRow.hidden=true;codeRow.hidden=false;back.hidden=false;submit.textContent="Verify & sign in ↗";say("A one-time code has been sent to your email.");code.focus()}else{await A.verifyCode({email:email.value.trim(),code:code.value.trim()});form.hidden=true;if(!hasPasskey&&A.supportsPasskeys()&&localStorage.getItem("grantly-passkey-declined")!=="1"){pass.hidden=false}else location.replace(next())}}catch(err){say(err?.message||"Something went wrong. Please try again.")}finally{submit.disabled=false}});back.addEventListener("click",()=>{step="email";emailRow.hidden=false;codeRow.hidden=true;back.hidden=true;submit.textContent="Continue with email ↗";say("")});document.querySelector("#passkey-add").addEventListener("click",async()=>{try{await A.registerPasskey({name:"GRANTLY passkey"})}catch(e){}location.replace(next())});document.querySelector("#passkey-skip").addEventListener("click",()=>{localStorage.setItem("grantly-passkey-declined","1");location.replace(next())})})();
-</script></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#101010">
+<title>Sign in · GRANTLY</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+<style>
+*{box-sizing:border-box}body{margin:0;min-height:100vh;background:#101010;color:#f5f4f0;font-family:"DM Sans",sans-serif;display:grid;grid-template-columns:1fr 1fr}
+.login-story{min-height:100vh;padding:42px 8%;display:flex;flex-direction:column;justify-content:space-between;background:radial-gradient(ellipse at 70% 42%,#29301d 0%,#171914 38%,#101010 72%);border-right:1px solid #ffffff20}
+.login-brand{font:800 26px Manrope,sans-serif;letter-spacing:-.09em;color:#f5f4f0;text-decoration:none}.login-brand i{font-style:normal;color:#d8ff48}
+.login-story-copy{max-width:620px}.login-kicker{font-size:9px;letter-spacing:.2em;color:#d8ff48;font-weight:800;text-transform:uppercase}
+.login-story h1{font:800 clamp(58px,7vw,110px)/.84 Manrope,sans-serif;letter-spacing:-.105em;text-transform:uppercase;margin:25px 0}
+.login-story h1 em{font-style:normal;color:transparent;-webkit-text-stroke:1px #f5f4f0}
+.login-story-copy p{max-width:390px;color:#b8b8ae;font-size:14px;line-height:1.8}
+.login-story-foot{font-size:9px;color:#888;letter-spacing:.1em;text-transform:uppercase}
+.login-side{display:grid;place-items:center;padding:38px 7%;background:#121210}
+.login-wrap{width:min(430px,100%)}
+.login-topline{display:flex;justify-content:space-between;align-items:center;margin-bottom:42px;font-size:9px;letter-spacing:.14em;color:#8c8c83;text-transform:uppercase}
+.login-topline a{color:#d8ff48;text-decoration:none}
+.login-wrap h2{font:800 clamp(34px,4vw,48px)/.94 Manrope,sans-serif;letter-spacing:-.08em;margin:0 0 12px}
+.login-sub{font-size:12px;line-height:1.75;color:#aaa;margin:0 0 26px}
+.google-signin{display:flex;align-items:center;justify-content:center;gap:12px;width:100%;min-height:52px;background:#f5f4f0;color:#171717;text-decoration:none;font-size:12px;font-weight:800;transition:transform .2s,background .2s}
+.google-signin:hover{transform:translateY(-2px);background:#fff}
+.google-signin svg{width:18px;height:18px;flex:none}
+.login-or{display:flex;align-items:center;gap:13px;color:#777;font-size:8px;letter-spacing:.15em;margin:22px 0}
+.login-or:before,.login-or:after{content:"";height:1px;background:#383832;flex:1}
+.login-wrap input{width:100%;min-height:51px;padding:14px 15px;background:#1b1b18;border:1px solid #4a4a42;color:#fff;font:13px "DM Sans",sans-serif;margin-bottom:10px}
+.login-wrap input:focus{outline:1px solid #d8ff48;border-color:#d8ff48}
+.login-wrap button{width:100%;min-height:51px;padding:14px;background:#d8ff48;color:#111;border:1px solid #d8ff48;font:800 10px Manrope,sans-serif;letter-spacing:.1em;text-transform:uppercase;cursor:pointer}
+.login-wrap button:hover{background:#e4ff7c}.login-wrap button:disabled{opacity:.55;cursor:wait}
+.login-wrap button.alt{margin-top:9px;background:transparent;color:#aaa;border-color:#4a4a42}
+.login-wrap button.alt:hover{color:#fff;border-color:#aaa;background:#1b1b18}
+.login-msg{min-height:24px;color:#d8ff48;font-size:11px;line-height:1.6;margin:14px 0}
+.login-msg.err{color:#ff9d85}.login-foot{font-size:9px;color:#777;line-height:1.8;margin-top:24px}
+.login-wrap [hidden]{display:none!important}
+@media(max-width:760px){body{grid-template-columns:1fr}.login-story{min-height:310px;padding:25px 7%;border-right:0;border-bottom:1px solid #ffffff20}.login-story h1{font-size:clamp(48px,12vw,76px);margin:18px 0}.login-story-copy p{font-size:12px}.login-story-foot{display:none}.login-side{padding:38px 7%;min-height:560px}.login-topline{margin-bottom:32px}}
+</style>
+</head>
+<body>
+<section class="login-story">
+<a class="login-brand" href="/"><i>✳</i> grantly</a>
+<div class="login-story-copy"><span class="login-kicker">YOUR NEXT CHAPTER STARTS HERE</span><h1>Make room<br>for <em>what's next.</em></h1><p>Your scholarship search, student passport and application plans—together in one thoughtful workspace.</p></div>
+<div class="login-story-foot">A clearer way forward · GRANTLY 2026</div>
+</section>
+<main class="login-side"><div class="login-wrap">
+<div class="login-topline"><span>YOUR GRANTLY ACCOUNT</span><a href="/">← Back to home</a></div>
+<h2 id="title">Welcome to GRANTLY.</h2>
+<p class="login-sub" id="sub">Sign in or create an account. Continue with Google, or get a one-time code by email—no password needed.</p>
+<a class="google-signin" id="google-btn" href="/api/auth/google/start"><svg viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>Continue with Google</a>
+<div class="login-or"><span>OR USE YOUR EMAIL</span></div>
+<form id="login-form" novalidate>
+<div id="email-row"><input id="email" name="email" type="email" placeholder="you@example.com" autocomplete="username webauthn" autocapitalize="off" autocorrect="off" spellcheck="false" required aria-label="Email address"></div>
+<div id="code-row" hidden><input id="code" name="code" type="text" inputmode="numeric" placeholder="6-digit code" autocomplete="one-time-code" maxlength="6" pattern="[0-9]*" aria-label="One-time code"></div>
+<button id="submit" type="submit">Continue with email ↗</button>
+<button id="back" class="alt" type="button" hidden>Use a different email</button>
+</form>
+<div id="passkey-row" hidden><p class="login-sub">Make future sign-ins quicker with a passkey using your fingerprint, face or device screen lock.</p><button id="passkey-add" type="button">Add a passkey</button><button id="passkey-skip" class="alt" type="button">Not now</button></div>
+<p class="login-msg" id="message" role="status" aria-live="polite"></p>
+<p class="login-foot">Your account keeps your GRANTLY profile and saved plans together. GRANTLY is an independent discovery and planning service, not a government portal.</p>
+</div></main>
+<script>
+(function(){
+  var A=window.hatchable&&window.hatchable.auth,form=document.getElementById('login-form'),emailEl=document.getElementById('email'),codeEl=document.getElementById('code'),emailRow=document.getElementById('email-row'),codeRow=document.getElementById('code-row'),submit=document.getElementById('submit'),back=document.getElementById('back'),msg=document.getElementById('message'),sub=document.getElementById('sub'),title=document.getElementById('title'),pass=document.getElementById('passkey-row'),google=document.getElementById('google-btn');
+  var step='email',hasPasskey=false,declineKey='grantly-passkey-offer-declined';
+  function safeNext(){var raw=new URLSearchParams(location.search).get('next')||'/passport.html';if(raw.charAt(0)!=='/'||raw.charAt(1)==='/')return '/passport.html';for(var i=0;i<raw.length;i++){var c=raw.charCodeAt(i);if(c<32||c===92||c===127)return '/passport.html'}return raw}
+  function say(t,kind){msg.textContent=t||'';msg.className='login-msg '+(kind||'')}
+  function done(){location.replace(safeNext())}
+  function finish(){var declined=false;try{declined=localStorage.getItem(declineKey)==='1'}catch(e){}if(hasPasskey||declined||!A.supportsPasskeys||!A.supportsPasskeys()||!A.registerPasskey){done();return}form.hidden=true;google.hidden=true;title.textContent="You're signed in.";sub.textContent='Add a passkey for quicker, password-free sign-in next time.';pass.hidden=false;document.getElementById('passkey-add').focus()}
+  if(!A){say('Sign-in is unavailable right now. Refresh the page and try again.','err');submit.disabled=true;return}
+  A.getSession().then(function(s){if(s&&s.user)done()}).catch(function(){});
+  google.href='/api/auth/google/start?next='+encodeURIComponent(safeNext());
+  if(A.attachPasskeyAutofill){try{A.attachPasskeyAutofill(emailEl).then(function(r){if(r&&r.user)done()}).catch(function(){})}catch(e){}}
+  back.addEventListener('click',function(){step='email';codeRow.hidden=true;emailRow.hidden=false;back.hidden=true;submit.textContent='Continue with email ↗';sub.textContent='Sign in or create an account. Continue with Google, or get a one-time code by email—no password needed.';say('');emailEl.focus()});
+  form.addEventListener('submit',function(e){e.preventDefault();if(step==='passkey')return;submit.disabled=true;
+    if(step==='email'){var email=(emailEl.value||'').trim();if(!email){submit.disabled=false;say('Enter a valid email address.','err');return}
+      A.startLogin({email:email}).then(function(r){hasPasskey=!!(r&&r.has_passkey);if(hasPasskey&&A.supportsPasskeys&&A.supportsPasskeys()){return A.signInWithPasskey({email:email}).then(function(d){if(d&&d.user){done();return null}return 'code'}).catch(function(){return 'code'})}return 'code'}).then(function(n){if(n!=='code')return;step='code';emailRow.hidden=true;codeRow.hidden=false;back.hidden=false;submit.textContent='Verify & sign in ↗';sub.textContent='Enter the six-digit code sent to '+emailEl.value.trim()+'.';say('Your code is on its way. Check your inbox and spam folder.');codeEl.focus()}).catch(function(err){say(err&&err.status===429?'Too many attempts. Please wait a moment before trying again.':((err&&err.message)||'We could not send your code. Check the address and try again.'),'err')}).then(function(){submit.disabled=false});return}
+    A.verifyCode({email:(emailEl.value||'').trim(),code:(codeEl.value||'').trim()}).then(function(d){if(d&&d.user){finish();return}say('That code could not be verified. Check it and try again.','err')}).catch(function(err){say((err&&err.message)||'That code could not be verified. Try again.','err')}).then(function(){submit.disabled=false});
+  });
+  document.getElementById('passkey-add').addEventListener('click',function(){var b=this;b.disabled=true;document.getElementById('passkey-skip').disabled=true;A.registerPasskey({name:'GRANTLY passkey'}).then(function(r){if(!r){try{localStorage.setItem(declineKey,'1')}catch(e){}}done()}).catch(function(err){b.disabled=false;document.getElementById('passkey-skip').disabled=false;say((err&&err.message)||'We could not save that passkey. You can continue without one.','err')})});
+  document.getElementById('passkey-skip').addEventListener('click',function(){try{localStorage.setItem(declineKey,'1')}catch(e){}done()});
+})();
+</script>
+</body></html>

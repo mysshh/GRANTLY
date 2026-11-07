@@ -446,3 +446,27 @@ body{background:#111;color:#f5f4f0;font-family:var(--sans)}
 .match-excluded .match-opportunity{margin-top:12px}
 .match-catalogue-link{margin-top:25px;font-size:11px;font-weight:800}
 .match-catalogue-link a{color:#49375f}
+/* GRANTLY clarity and interaction polish */
+:root{scroll-behavior:smooth}
+body{font-size:14px;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+p{max-width:72ch}
+a,button,input,select,textarea{transition:color .18s ease,background-color .18s ease,border-color .18s ease,transform .18s ease}
+:focus-visible{outline:2px solid #d8ff48!important;outline-offset:4px}
+.nav-links a{font-weight:700;letter-spacing:.045em}
+.account-nav{display:inline-flex;align-items:center;padding:10px 13px;border:1px solid #d8ff48;color:#d8ff48!important}
+.account-nav:hover{background:#d8ff48;color:#111!important}
+.hero-copy>p,.story-copy>p,.match-intro>p{font-size:clamp(13px,1.1vw,15px);line-height:1.85;max-width:47ch}
+.chapter,.eyebrow{font-weight:800}
+.page-title h1{max-width:1000px}
+.catalogue-toolbar input,.catalogue-toolbar select,.match-fields input,.match-fields select{min-height:48px}
+.match-fields label,.passport-form label{line-height:1.5}
+.match-consent{line-height:1.65}
+.match-submit,.hero-button,.nav-cta{font-weight:800;letter-spacing:.06em}
+.scholarship-card{transition:transform .2s ease,box-shadow .2s ease}
+.scholarship-card:hover{transform:translateY(-3px);box-shadow:0 14px 32px #0003}
+.scholarship-card h2{line-height:1.08}
+.scheme-summary{font-size:12px;line-height:1.75}
+.scheme-provider{font-size:11px}
+.catalogue-disclaimer{font-size:11px;line-height:1.8}
+.footer{font-size:10px}
+@media(max-width:800px){.account-nav{margin:10px 0;justify-content:center}.nav-links{align-items:stretch}}
