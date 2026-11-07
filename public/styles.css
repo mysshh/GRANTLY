@@ -431,3 +431,18 @@ body{background:#111;color:#f5f4f0;font-family:var(--sans)}
 .match-opportunity a{font-size:10px;font-weight:800;color:#44345b}
 @media(max-width:850px){.passport-layout{grid-template-columns:1fr;padding:55px 7% 70px;gap:40px}.passport-card{max-width:650px;width:100%;transform:none}.passport-editor{padding:55px 7% 70px}}
 @media(max-width:540px){.passport-form{grid-template-columns:1fr}.passport-form label,.passport-wide,.passport-form-actions{grid-column:1}.passport-card{padding:20px;min-height:320px}.passport-card-main{margin:34px 0 26px}.passport-card-grid{gap:16px}.passport-card-grid b{font-size:10px}.passport-card-bottom{font-size:6px}.account-nav{font-size:8px;margin-right:5px}}
+/* SmartMatch full catalogue results */
+.match-results-count{font-size:11px;color:#777;padding:14px 0 24px;border-bottom:1px solid #ddd;margin-bottom:22px}
+.match-results-count b{color:#171717;font-size:16px}.match-opportunities h4{margin-top:26px}
+.match-review-heading{padding-top:20px;border-top:1px solid #ddd}
+.match-opportunity small{display:block;color:#756b80;font-size:10px;line-height:1.55;margin:9px 0}
+.match-scheme-actions{display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin-top:13px}
+.match-scheme-actions button{border:0;background:#171717;color:#d8ff48;padding:10px 13px;font-size:9px;font-weight:800;cursor:pointer}
+.match-scheme-actions button:disabled{opacity:.65;cursor:default}
+.match-scheme-actions a{font-size:10px;color:#49375f;font-weight:800}
+.match-opportunity.match-not-fit{opacity:.85;background:#f0efec;border-left-color:#b8b4ad}
+.match-excluded{margin-top:22px;border-top:1px solid #ddd;padding-top:16px}
+.match-excluded summary{font-size:11px;font-weight:700;cursor:pointer;color:#777}
+.match-excluded .match-opportunity{margin-top:12px}
+.match-catalogue-link{margin-top:25px;font-size:11px;font-weight:800}
+.match-catalogue-link a{color:#49375f}
