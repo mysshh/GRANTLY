@@ -10,7 +10,7 @@
 </head>
 <body>
 <div class="site-shell">
-<header class="topbar"><a class="wordmark" href="#top"><span class="logo-star">✳</span> grantly</a><nav class="nav-links"><a href="#smart-match">SmartMatch</a><a href="#journey">The journey</a><a href="#discover">Explore support</a><a href="#about">How it works</a></nav><a class="nav-cta" href="#begin">Find your path <span>↗</span></a><button class="menu-toggle" aria-label="Toggle navigation">☰</button></header>
+<header class="topbar"><a class="wordmark" href="#top"><span class="logo-star">✳</span> grantly</a><nav class="nav-links"><a href="#smart-match">SmartMatch</a><a href="#tracker">My applications</a><a href="#journey">The journey</a><a href="#discover">Explore support</a><a href="#about">How it works</a></nav><a class="nav-cta" href="#begin">Find your path <span>↗</span></a><button class="menu-toggle" aria-label="Toggle navigation">☰</button></header>
 <main>
 <section class="world-hero" id="top">
 <div class="sky-glow"></div><div class="halo"></div><div class="orbit orbit-a"></div><div class="orbit orbit-b"></div>
@@ -45,6 +45,20 @@
 <div class="match-results" id="match-results" hidden aria-live="polite"></div>
 </div>
 </section>
+<section class="tracker-section" id="tracker">
+<div class="tracker-heading"><span class="chapter">YOUR SCHOLARSHIP PASSPORT / 02</span><h2>Every application.<br><em>One clear path.</em></h2><p>Keep the opportunities you’re pursuing in one place. Update each one as you make progress.</p></div>
+<div class="tracker-layout">
+<aside class="tracker-side"><div class="tracker-stamp">✳</div><span class="tracker-kicker">YOUR PROGRESS</span><div class="tracker-count" id="tracker-total">00</div><p>opportunities on your list</p><div class="tracker-stats"><span><b id="tracker-active">00</b> In progress</span><span><b id="tracker-submitted">00</b> Submitted</span><span><b id="tracker-awarded">00</b> Awarded</span></div><p class="tracker-local-note">✦ Saved only on this device</p></aside>
+<div class="tracker-main"><div class="tracker-toolbar"><div><span class="tracker-kicker">THE APPLICATION DESK</span><h3>Your opportunity log</h3></div><button type="button" class="tracker-add" id="tracker-add">+ Add opportunity</button></div>
+<form class="tracker-form" id="tracker-form" hidden>
+<div class="tracker-form-title"><b id="tracker-form-heading">Add an opportunity</b><button type="button" id="tracker-cancel" aria-label="Close form">×</button></div>
+<div class="tracker-form-grid"><label>Scholarship / opportunity name<input name="name" maxlength="90" placeholder="e.g. State Post-Matric Scholarship" required></label><label>Provider / organisation<input name="provider" maxlength="70" placeholder="e.g. State government"></label><label>Application deadline<input name="deadline" type="date"></label><label>Current stage<select name="status"><option value="Interested">Interested</option><option value="Preparing">Preparing</option><option value="Submitted">Submitted</option><option value="Approved">Approved</option><option value="Not selected">Not selected</option></select></label><label class="tracker-wide">Official link (optional)<input name="url" type="url" placeholder="https://..."></label><label class="tracker-wide">Notes / next step<textarea name="notes" rows="2" maxlength="500" placeholder="Documents to collect, contact person, next action…"></textarea></label></div>
+<div class="tracker-form-actions"><button type="button" id="tracker-delete" class="tracker-delete" hidden>Delete opportunity</button><button type="submit" class="tracker-save">Save to my list ↗</button></div>
+</form>
+<div class="tracker-filters" role="group" aria-label="Filter applications"><button type="button" class="active" data-filter="All">All</button><button type="button" data-filter="Interested">Interested</button><button type="button" data-filter="Preparing">Preparing</button><button type="button" data-filter="Submitted">Submitted</button><button type="button" data-filter="Approved">Approved</button></div>
+<div id="tracker-list" class="tracker-list" aria-live="polite"></div>
+<p class="tracker-footnote">GRANTLY is a personal organiser, not an official application portal. Submit applications and check decisions with the scholarship provider.</p>
+</div></div></section>
 <section class="story-section story-one" id="journey"><div class="story-art art-one" aria-hidden="true"><div class="open-book-art"><span></span><span></span><b>✳</b></div><div class="book-orbit orbit-small"></div><div class="paper-fragment fragment-a">A NEW<br>CHAPTER</div><div class="paper-fragment fragment-b">01</div><div class="spark s-a">✦</div><div class="spark s-b">✧</div></div><div class="story-copy"><span class="chapter">CHAPTER 01 / THE SEARCH</span><h2>Big ambitions.<br><em>Less guesswork.</em></h2><p>Finding financial support for education can feel like a course of its own. Different portals, eligibility rules, documents and deadlines — all scattered around.</p><p>GRANTLY brings the journey into one clearer place, so you can spend less time searching and more time moving forward.</p><a href="#discover" class="story-link">See what's possible <span>↗</span></a></div></section>
 <section class="discovery-section" id="discover"><div class="discovery-heading"><span class="chapter">CHAPTER 02 / OPEN THE RIGHT DOORS</span><h2>Support for every<br><em>kind of ambition.</em></h2><p>Different paths. Different kinds of support. One place to start exploring.</p></div><div class="discovery-scenes">
 <article class="scene scene-lilac"><span class="scene-number">01 / GOVERNMENT SCHEMES</span><div class="scene-illustration crest">✳</div><h3>Public support<br>for your potential.</h3><p>Explore central and state scholarship programmes.</p><span class="scene-arrow">↗</span></article>
